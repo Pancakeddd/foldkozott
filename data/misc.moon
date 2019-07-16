@@ -1,7 +1,7 @@
 export *
 
 army_levy = {
-  small: 50000
-  medium: 30000
+  small: 100000
+  medium: 50000
   big: 15000
 }

@@ -1,6 +1,7 @@
 export *
 
 province_colors =
+  greater_austria: {114, 47, 222}
   graz: {232, 41, 127}
   zagreb: {46, 167, 46}
   upper_graz: {166, 43, 180}
