@@ -68,12 +68,11 @@ class Map
       for _, p in pairs province_definitions
         if p.linkedarmies[tostring b.attacker or tostring b.defender]
           b.attacker\draw p, b
-          return
+          break
       
-
     for _, p in pairs province_definitions
       for _, a in pairs p.linkedarmies
-        a\draw p
+        a\draw p unless a.inbattle
     --gr.setShader!
 
   tick: =>

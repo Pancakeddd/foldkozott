@@ -16,7 +16,7 @@ load_data {
   'shaders.provinceshaders'
 }
 
-a = Army { -- Load a test army for Austria and put i
+a = Army { -- Load a test army for Austria and put in upper graz
   armygroup 470, ArmyTypes.Pikemen
   armygroup 500, ArmyTypes.Cavalry
   armygroup 30, ArmyTypes.Musketeer
