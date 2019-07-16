@@ -1,0 +1,3 @@
+compile:
+	moonc .
+	love .
