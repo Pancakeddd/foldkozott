@@ -47,6 +47,7 @@ class Authority
         for s in *t.states
           for p in *s.provinces
             p.loyalty = @
+    @load_flag!
 
   add_diplomatic_relation: (relation) =>
     @diplomacy[#@diplomacy+1] = relation
@@ -81,6 +82,9 @@ class Authority
         s\conscript @
     for a in *@authorities
       a\conscript!
+
+  load_flag: =>
+    @flag = g.newImage "assets/flags/#{@name}.png"
 
 in_conflict = (a, b) ->
   if a\get_relation_with("war", b) or b\get_relation_with("war", a)
