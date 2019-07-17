@@ -42,7 +42,10 @@ class Map
   new: =>
     @battles = {}
     @provinces = {}
-    @shader = gr.newShader shader_province_f
+    pcl = 0
+    for _, _ in pairs province_colors
+      pcl += 1
+    @shader = gr.newShader shader_province_f pcl
     @prov_img = gr.newImage 'assets/provinces.png'
 
   add_province: (province) =>
@@ -61,9 +64,31 @@ class Map
         _list_1[_index_0] = nil
 
   draw: =>
-    --gr.setShader @shader
+    gr.setShader @shader
+    print country_colors
     gr.setColor 1, 1, 1
+
+    --@shader\send "screen", {gr.getWidth!, gr.getHeight!}
+    pcl = 0
+    for _, _ in pairs province_colors
+      pcl += 1
+    @shader\send "provinces", pcl
+    i = 0
+    for p in *@provinces
+      for cc in *country_colors
+        print p.loyalty.name, cc[5]
+        if p.loyalty.name == cc[5]
+          indexprovince = "provinceidxs[#{i}]"
+          @shader\send "#{indexprovince}.country", {cc[1]/255, cc[2]/255, cc[3]/255, 1.0}
+          for k, v in pairs province_colors
+            if p.name == k
+              print p.name, unpack v
+              @shader\send "#{indexprovince}.color", {v[1]/255, v[2]/255, v[3]/255, 1.0} 
+              i += 1
+              print i
+
     gr.draw @prov_img, 0, 0
+    gr.setShader!
     for b in *@battles
       for _, p in pairs province_definitions
         if p.linkedarmies[tostring b.attacker or tostring b.defender]
@@ -73,12 +98,11 @@ class Map
     for _, p in pairs province_definitions
       for _, a in pairs p.linkedarmies
         a\draw p unless a.inbattle
-    --gr.setShader!
 
   tick: =>
     @update_provinces!
 
-  load_provinces: (p_defs)=>
+  load_provinces: (p_defs) =>
     @data = love.image.newImageData 'assets/provinces.png'
     w, h = @data\getWidth!, @data\getHeight!
     for y = 0, h-1

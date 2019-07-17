@@ -40,8 +40,13 @@ class Government
 -- Authorities rule over titles and/or other authorities as unions. Every Authority has it's own government that rules over it's land.
 
 class Authority
-  new: (@name, @government, @titles, @authorities = {}) =>
+  new: (@name, @government, @titles, @authorities = {}, @startloyal = true) =>
     @diplomacy = {}
+    if @startloyal
+      for t in *@titles
+        for s in *t.states
+          for p in *s.provinces
+            p.loyalty = @
 
   add_diplomatic_relation: (relation) =>
     @diplomacy[#@diplomacy+1] = relation
