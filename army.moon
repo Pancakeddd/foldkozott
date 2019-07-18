@@ -144,17 +144,32 @@ class Army
       t += p.armytype.Morale
     return t
 
+  draw_flag: (dir=false, x, y, size=0.1) =>
+    direction = (do
+      if not dir
+        return 1
+      else
+        return -1)
+    flag = @loyalty.flag
+    with g
+      .push!
+      .scale size, size
+      .draw flag, (x+(direction*10))/size, y/size
+      .pop!
+
   draw_morale: (x, y) =>
-    g.setColor 219/255, 42/255, 42/255
-    g.rectangle 'fill', x, y, 100, 10
-    g.setColor 42/255, 219/255, 45/255
-    g.rectangle 'fill', x, y, 100*(@gettotalfightingmorale!/@gettotalpossiblemorale!), 10
-    g.setColor 1, 1, 1
+    with g
+      .setColor 219/255, 42/255, 42/255
+      .rectangle 'fill', x, y, 100, 10
+      .setColor 42/255, 219/255, 45/255
+      .rectangle 'fill', x, y, 100*(@gettotalfightingmorale!/@gettotalpossiblemorale!), 10
+      .setColor 1, 1, 1
 
   draw: (p, b) =>
     if not b
       g.setColor 1, 1, 1
       g.print display_pop(@gettotalarmysize!), p.shapecenter[1], p.shapecenter[2]
+      @draw_flag false, p.shapecenter[1], p.shapecenter[2] - 20
     else
       b\draw p
 
