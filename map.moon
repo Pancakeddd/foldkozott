@@ -18,6 +18,11 @@ class Province
       if tostring(army) == k
         @linkedarmies[k] = nil
 
+  find_army: (army) =>
+    for k, _ in pairs @linkedarmies
+      if tostring(army) == k
+        return true
+
   set_map: (@map) =>
   
   tick: =>
@@ -101,6 +106,10 @@ class Map
 
   tick: =>
     @update_provinces!
+
+  move_army: (a, p) =>
+
+
 
   load_provinces: (p_defs) =>
     @data = love.image.newImageData 'assets/provinces.png'

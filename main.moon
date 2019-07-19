@@ -20,7 +20,7 @@ a = Army { -- Load a test army for Austria and put in upper graz
   armygroup 470, ArmyTypes.Pikemen
   armygroup 500, ArmyTypes.Cavalry
   armygroup 30, ArmyTypes.Musketeer
-  }, authority_definitions.austria
+  }, authority_definitions.croatia
 map = Map!
 
 for _, v in pairs province_definitions
@@ -29,7 +29,9 @@ for _, v in pairs province_definitions
 
 map\load_provinces province_colors
 
-province_definitions.upper_graz\add_army a
+province_definitions.graz\add_army a
+
+--a\move map, province_definitions.graz
 
 authority_definitions.croatia\war authority_definitions.austria
 

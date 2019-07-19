@@ -104,6 +104,7 @@ class Army
     @routing = false
     @total = @gettotalarmysize!
     @inbattle = false
+    @movement = {-1, nil}
 
   gettotalarmysize: =>
     t = 0
@@ -125,6 +126,17 @@ class Army
     for p in *@army
         t += p.people unless p.isrouting
     return t
+
+  getprov: (map) =>
+    for p in *map.provinces
+      if p\find_army @
+        return p
+
+  move: (map, p) =>
+    ap = @getprov map
+    distance = dist p.shapecenter[1], p.shapecenter[2], ap.shapecenter[1], ap.shapecenter[2]
+    print distance
+    @movement = {}
 
   gettotalmorale: =>
     t = 0

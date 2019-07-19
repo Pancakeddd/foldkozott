@@ -87,7 +87,7 @@ class Authority
     @flag = g.newImage "assets/flags/#{@name}.png"
 
 in_conflict = (a, b) ->
-  if a\get_relation_with("war", b) or b\get_relation_with("war", a)
+  if #a\get_relation_with("war", b) > 0 or #b\get_relation_with("war", a) > 0
     return true
 
 {:State, :Title, :Government, :Authority, :in_conflict}
