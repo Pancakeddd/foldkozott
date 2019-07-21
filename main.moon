@@ -1,6 +1,6 @@
 require 'util'
 
-import Battle, Army, ArmyTypes, armygroup from require 'army'
+import Battle, Army, ArmyTypes, armygroup, order from require 'army'
 import Map, Province from require 'map'
 Timer = require 'libs.chrono'
 load_data = require 'loaddata'
@@ -29,9 +29,9 @@ for _, v in pairs province_definitions
 
 map\load_provinces province_colors
 
-province_definitions.graz\add_army a
-
---a\move map, province_definitions.graz
+province_definitions.upper_graz\add_army a
+a\add_order order "move", {province: province_definitions.greater_austria}
+a\add_order order "move", {province: province_definitions.wolfsberg}
 
 authority_definitions.croatia\war authority_definitions.austria
 
@@ -40,12 +40,13 @@ with love
       love.window.setMode 1920, 1080
 
       authority_definitions.croatia\conscript!
-      authority_definitions.austria\conscript!
+      --authority_definitions.austria\conscript!
       map\add_province graz
       export timer = Timer!
       timer\every(0.5, (-> 
         --battle\battletick!
-        map\tick!))
+        map\tick!
+        a\do_order map))
   .update = (dt) ->
     timer\update dt
   .draw = ->

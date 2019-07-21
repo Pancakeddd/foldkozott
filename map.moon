@@ -33,7 +33,6 @@ class Province
         for _, v2 in pairs @linkedarmies
           if v2 ~= v and in_conflict v.loyalty, v2.loyalty
             if v\canfight! and v2\canfight!
-              print v\canfight!, v2\canfight!
               @map\add_battle Battle v, v2
 
 
@@ -64,13 +63,11 @@ class Map
       p\tick!
     for b in *@battles
       b\battletick!
-      print b.ended
       if b.ended
         _list_1[_index_0] = nil
 
   draw: =>
     gr.setShader @shader
-    print country_colors
     gr.setColor 1, 1, 1
 
     --@shader\send "screen", {gr.getWidth!, gr.getHeight!}
@@ -81,16 +78,13 @@ class Map
     i = 0
     for p in *@provinces
       for cc in *country_colors
-        print p.loyalty.name, cc[5]
         if p.loyalty.name == cc[5]
           indexprovince = "provinceidxs[#{i}]"
           @shader\send "#{indexprovince}.country", {cc[1]/255, cc[2]/255, cc[3]/255, 1.0}
           for k, v in pairs province_colors
             if p.name == k
-              print p.name, unpack v
               @shader\send "#{indexprovince}.color", {v[1]/255, v[2]/255, v[3]/255, 1.0} 
               i += 1
-              print i
 
     gr.draw @prov_img, 0, 0
     gr.setShader!

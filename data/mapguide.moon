@@ -10,6 +10,8 @@ province_colors =
   volkermarkt: {27, 119, 210}
   leoben: {61, 123, 229}
   klagenfurt: {40, 188, 134}
+  velika_gorica: {175, 58, 156}
+  northern_croatia: {224, 235, 83}
 
 country_colors = {
   {227, 166, 166, 1, "austria"}

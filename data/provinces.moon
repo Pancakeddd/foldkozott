@@ -12,3 +12,5 @@ province_definitions =
   volkermarkt: Province "volkermarkt", {}, nil, 20000
   leoben: Province "leoben", {}, nil, 20000
   klagenfurt: Province "klagenfurt", nil, 65000
+  velika_gorica: Province "velika_gorica", {}, nil, 25000
+  northern_croatia: Province "northern_croatia", {}, nil, 150000

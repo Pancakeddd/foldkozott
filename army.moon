@@ -98,6 +98,8 @@ class Battle
     g.print display_pop(@defender\gettotalarmysize!), p.shapecenter[1] - 50, p.shapecenter[2]
     @defender\draw_morale p.shapecenter[1] - 150, p.shapecenter[2] + 20
 
+order = (name, pred) ->
+  {:name, :pred}
 
 class Army
   new: (@army, @loyalty) =>
@@ -105,6 +107,8 @@ class Army
     @total = @gettotalarmysize!
     @inbattle = false
     @movement = {-1, nil}
+    @orders = {}
+    @currentorder = nil
 
   gettotalarmysize: =>
     t = 0
@@ -132,11 +136,40 @@ class Army
       if p\find_army @
         return p
 
+  add_order: (order) =>
+    @orders[#@orders+1] = order
+
+  peek_order: =>
+    @orders[1]
+
+  pop_order: =>
+    table.remove @orders, 1
+
+  do_order: (map) =>
+    if @currentorder == nil
+      if #@orders > 0
+        @currentorder = @pop_order!
+      else
+        return
+    
+    if @currentorder.name == "move"
+      @currentorder = nil if @move(map, @currentorder.pred.province) == true
+
+
   move: (map, p) =>
     ap = @getprov map
-    distance = dist p.shapecenter[1], p.shapecenter[2], ap.shapecenter[1], ap.shapecenter[2]
-    print distance
-    @movement = {}
+    distance = dist_real p.shapecenter[1], p.shapecenter[2], ap.shapecenter[1], ap.shapecenter[2]
+    if @movement[1] == -1
+      @movement[1] = distance
+      @movement[2] = p
+    else
+      @movement[1] -= 25
+      if @movement[1] <= 0
+        ap\remove_army @
+        p\add_army @
+        @movement = {-1, nil}
+        return true
+    print "Distance:", distance
 
   gettotalmorale: =>
     t = 0
@@ -193,4 +226,4 @@ class Army
   update: (dt) =>
     @recovermorale!
 
-{:ArmyTypes, :Army, :Battle, :armygroup}
+{:ArmyTypes, :Army, :Battle, :armygroup, :order}
