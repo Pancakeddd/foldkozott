@@ -12,6 +12,11 @@ province_colors =
   klagenfurt: {40, 188, 134}
   velika_gorica: {175, 58, 156}
   northern_croatia: {224, 235, 83}
+  western_zagreb: {123, 184, 65}
+  sistak: {36, 157, 176}
+  inner_dinaric: {247, 99, 80}
+  inner_split: {247, 247, 80}
+  split: {228, 80, 247}
 
 country_colors = {
   {227, 166, 166, 1, "austria"}

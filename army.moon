@@ -71,22 +71,21 @@ class Battle
       -- Attacker attacks defender
       for army in *attacker.army
         if not army.isrouting
-          defenderarmy = {}
-          for a in *defender.army
-            if not a.isrouting
-              defenderarmy[#defenderarmy+1] = a
+          defenderarmy = [item for item in *defender.army when not item.isrouting]
           if #defenderarmy < 1
             break
           enemyarmy = nil
           while true
             enemyarmy = defenderarmy[love.math.random(1, #defenderarmy)]
             break unless enemyarmy.isrouting
-          
-          damage = (((army.people/500) + love.math.random(1, army.armytype.Attack) * army.armytype.AttackMorale) - (enemyarmy.people/500) + enemyarmy.armytype.Defense * enemyarmy.armytype.DefenseMorale) * (army.morale / 100)
+          print army.isrouting, enemyarmy.isrouting, "Gak"
+          damage = clampzero ((army.people/100) * love.math.random(1, army.armytype.Attack)) - ((enemyarmy.people/100) * love.math.random(1, enemyarmy.armytype.Defense))
+          print "Damage:", damage
           enemyarmy.morale -= damage/5
           enemyarmy.people -= math.floor damage
 
-          if army.morale < 20
+          if army.morale <= 0
+            print "Army of #{attacker.loyalty.name} has routed"
             army.isrouting = true
       print @defender\gettotalfightingarmysize!, defender\gettotalmorale!, "Defender"
       print @attacker\gettotalfightingarmysize!, attacker\gettotalmorale!, "Attacker"
@@ -157,6 +156,7 @@ class Army
 
 
   move: (map, p) =>
+    return if @inbattle
     ap = @getprov map
     distance = dist_real p.shapecenter[1], p.shapecenter[2], ap.shapecenter[1], ap.shapecenter[2]
     if @movement[1] == -1

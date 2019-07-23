@@ -14,3 +14,8 @@ province_definitions =
   klagenfurt: Province "klagenfurt", nil, 65000
   velika_gorica: Province "velika_gorica", {}, nil, 25000
   northern_croatia: Province "northern_croatia", {}, nil, 150000
+  western_zagreb: Province "western_zagreb", {}, nil, 75000
+  sistak: Province "sistak", {}, nil, 150000
+  inner_dinaric: Province "inner_dinaric", {}, nil, 25000
+  inner_split: Province "inner_split", {}, nil, 25000
+  split: Province "split", {}, nil, 250000
