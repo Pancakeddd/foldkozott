@@ -78,12 +78,9 @@ class Battle
           while true
             enemyarmy = defenderarmy[love.math.random(1, #defenderarmy)]
             break unless enemyarmy.isrouting
-          print army.isrouting, enemyarmy.isrouting, "Gak"
           damage = clampzero ((army.people/100) * love.math.random(1, army.armytype.Attack)) - ((enemyarmy.people/100) * love.math.random(1, enemyarmy.armytype.Defense))
-          print "Damage:", damage
           enemyarmy.morale -= damage/5
           enemyarmy.people -= math.floor damage
-
           if army.morale <= 0
             print "Army of #{attacker.loyalty.name} has routed"
             army.isrouting = true
@@ -92,10 +89,13 @@ class Battle
       @whoattacking = not @whoattacking
 
   draw: (p) =>
-    g.print display_pop(@attacker\gettotalarmysize!), p.shapecenter[1] + 50, p.shapecenter[2]
-    @attacker\draw_morale p.shapecenter[1] + 150, p.shapecenter[2] + 20
-    g.print display_pop(@defender\gettotalarmysize!), p.shapecenter[1] - 50, p.shapecenter[2]
-    @defender\draw_morale p.shapecenter[1] - 150, p.shapecenter[2] + 20
+    center = p.shapecenter
+    g.print display_pop(@attacker\gettotalarmysize!), center[1] + 50, center[2]
+    @attacker\draw_morale center[1] + 150, center[2] + 20
+    @attacker\draw_flag false, center[1] + 70, center[2]
+    g.print display_pop(@defender\gettotalarmysize!), center[1] - 50, center[2]
+    @defender\draw_morale center[1] - 150, center[2] + 20
+    @defender\draw_flag true, center[1] - 70, center[2]
 
 order = (name, pred) ->
   {:name, :pred}
