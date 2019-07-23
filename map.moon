@@ -28,7 +28,8 @@ class Province
   tick: =>
     @population += (@population / 100)
 
-    for _, v in pairs @linkedarmies
+    for k, v in pairs @linkedarmies
+      @linkedarmies[k] = nil if v.isdead
       if v.loyalty.__class == Authority
         for _, v2 in pairs @linkedarmies
           if v2 ~= v and in_conflict v.loyalty, v2.loyalty

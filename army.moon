@@ -81,7 +81,7 @@ class Battle
           damage = clampzero ((army.people/100) * love.math.random(1, army.armytype.Attack)) - ((enemyarmy.people/100) * love.math.random(1, enemyarmy.armytype.Defense))
           enemyarmy.morale -= damage/5
           enemyarmy.people -= math.floor damage
-          if army.morale <= 0
+          if army.morale <= 20
             print "Army of #{attacker.loyalty.name} has routed"
             army.isrouting = true
       print @defender\gettotalfightingarmysize!, defender\gettotalmorale!, "Defender"
@@ -105,6 +105,7 @@ class Army
     @routing = false
     @total = @gettotalarmysize!
     @inbattle = false
+    @isdead = false
     @movement = {-1, nil}
     @orders = {}
     @currentorder = nil
@@ -129,6 +130,10 @@ class Army
     for p in *@army
         t += p.people unless p.isrouting
     return t
+
+  is_dead: =>
+    if @gettotalarmysize <= 0
+      @isdead = true
 
   getprov: (map) =>
     for p in *map.provinces
@@ -225,5 +230,6 @@ class Army
 
   update: (dt) =>
     @recovermorale!
+    @is_dead!
 
 {:ArmyTypes, :Army, :Battle, :armygroup, :order}
