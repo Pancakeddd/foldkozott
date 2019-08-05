@@ -147,8 +147,12 @@ class Army
       else
         return
     
+    print @currentorder
     if @currentorder.name == "move"
       @currentorder = nil if @move(map, @currentorder.pred.province) == true
+    else if @currentorder.name == "moveto"
+      @currentorder = nil if @move_to(map, @currentorder.pred.province) == true
+      
 
   move: (map, p) =>
     return if @inbattle
@@ -170,8 +174,12 @@ class Army
     ap = @getprov map
     path = map\get_path ap, p
     return if #path < 1
+    i = #trimf(path)
     for province in *trimf path
-      @add_order order "move", {province: province}
+      table.insert @orders, #trimf(path)-i+1, order("move", {province: province})
+      print (#trimf(path)-i)+1, "wuht"
+      i -= 1
+    return true
 
   gettotalmorale: =>
     t = 0

@@ -60,7 +60,8 @@ with love
       }, authority_definitions.croatia
 
       province_definitions.graz\add_army a
-      a\move_to game.map, province_definitions['greater_austria']
+      a\add_order order "moveto", {province: province_definitions['greater_austria']}
+      a\add_order order "moveto", {province: province_definitions['klagenfurt']}
       game\register_army a
 
       game.countries.croatia\war game.countries.austria
