@@ -17,8 +17,12 @@ province_colors =
   inner_dinaric: {247, 99, 80}
   inner_split: {247, 247, 80}
   split: {228, 80, 247}
+  sibenik: {80, 228, 247}
+  trilj: {23, 54, 207}
+  biograd: {62, 167, 101}
 
 country_colors = {
   {227, 166, 166, 1, "austria"}
   {217, 33, 33, 1, "croatia"}
+  {201, 196, 32, 1, "venetian_adriatic"}
 }

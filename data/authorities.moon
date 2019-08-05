@@ -8,3 +8,4 @@ authority_definitions =
     ), 
     {title_definitions.austria}
   croatia: Authority "croatia", Government(""), {title_definitions.croatia}
+  venetian_adriatic: Authority "venetian_adriatic", Government(""), {title_definitions.venetian_adriatic}

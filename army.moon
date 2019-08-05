@@ -1,34 +1,24 @@
 g = love.graphics
 
 ArmyTypes =
-  Pikemen:
-    Defense: 20
-    DefenseMorale: 0.8
-    Attack: 12
+  Militia:
+    Defense: 25
+    DefenseMorale: 0.6
+    Attack: 35
+    AttackAccuracy: 75
     AttackMorale: 1
     Armor: 0.9
     Morale: 100
-  Cavalry:
-    Defense: 10
-    DefenseMorale: 1.5
-    Attack: 20
-    AttackMorale: 1.2
-    Armor: 0.9
-    Morale: 100
+
   Artillery:
-    Defense: 10
-    DefenseMorale: 1.8
-    Attack: 20
-    AttackMorale: 1.4
+    Defense: 25
+    DefenseMorale: 0.3
+    Attack: 80
+    AttackAccuracy: 45
+    AttackMorale: 1
     Armor: 0.9
     Morale: 100
-  Musketeer:
-    Defense: 12
-    DefenseMorale: 1
-    Attack: 30
-    AttackMorale: 1.7
-    Armor: 0.7
-    Morale: 100
+
 
 armygroup = (people, armytype) ->
   {
@@ -78,9 +68,10 @@ class Battle
           while true
             enemyarmy = defenderarmy[love.math.random(1, #defenderarmy)]
             break unless enemyarmy.isrouting
-          damage = clampzero ((army.people/100) * love.math.random(1, army.armytype.Attack)) - ((enemyarmy.people/100) * love.math.random(1, enemyarmy.armytype.Defense))
-          enemyarmy.morale -= damage/5
-          enemyarmy.people -= math.floor damage
+          if math.random(0, 100) > enemyarmy.armytype.AttackAccuracy
+            damage = clampzero ((army.people/100) * love.math.random(1, army.armytype.Attack)) - ((enemyarmy.people/100) * love.math.random(1, enemyarmy.armytype.Defense))
+            enemyarmy.morale -= damage/5
+            enemyarmy.people -= math.floor damage
           if army.morale <= 20
             print "Army of #{attacker.loyalty.name} has routed"
             army.isrouting = true
@@ -132,7 +123,7 @@ class Army
     return t
 
   is_dead: =>
-    if @gettotalarmysize <= 0
+    if @gettotalarmysize! <= 0
       @isdead = true
 
   getprov: (map) =>
@@ -159,7 +150,6 @@ class Army
     if @currentorder.name == "move"
       @currentorder = nil if @move(map, @currentorder.pred.province) == true
 
-
   move: (map, p) =>
     return if @inbattle
     ap = @getprov map
@@ -175,6 +165,13 @@ class Army
         @movement = {-1, nil}
         return true
     print "Distance:", distance
+
+  move_to: (map, p) =>
+    ap = @getprov map
+    path = map\get_path ap, p
+    return if #path < 1
+    for province in *trimf path
+      @add_order order "move", {province: province}
 
   gettotalmorale: =>
     t = 0

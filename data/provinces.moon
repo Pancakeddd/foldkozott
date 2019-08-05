@@ -19,3 +19,6 @@ province_definitions =
   inner_dinaric: Province "inner_dinaric", {}, nil, 25000
   inner_split: Province "inner_split", {}, nil, 25000
   split: Province "split", {}, nil, 250000
+  sibenik: Province "sibenik", {}, nil, 25000
+  trilj: Province "trilj", {}, nil, 35000
+  biograd: Province "biograd", {}, nil, 15000

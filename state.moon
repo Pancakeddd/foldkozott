@@ -53,22 +53,28 @@ class Authority
     @diplomacy[#@diplomacy+1] = relation
 
   war: (country) =>
-    @diplomacy[#@diplomacy+1] = {
+    @add_diplomatic_relation {
         type: "war"
         relation: country
       }
+  
+  trade: (country) =>
+    @add_diplomatic_relation {
+      type: "trade"
+      relation: country
+    }
 
-  get_relation_with: (type, country) =>
+  get_relation_with: (y, country) =>
     t = {}
     for relation in *@diplomacy
-      if relation.type == type and relation.relation == country then
+      if relation.type == y and relation.relation == country then
         t[#t+1] = relation
     return t
       
-  get_relation: (type) =>
+  get_relation: (y) =>
     t = {}
     for relation in *@diplomacy
-      if relation.type == type
+      if relation.type == y
         t[#t+1] = relation
     return t
 
@@ -78,7 +84,6 @@ class Authority
   conscript: =>
     for t in *@titles
       for s in *t.states
-        print "yaa"
         s\conscript @
     for a in *@authorities
       a\conscript!
